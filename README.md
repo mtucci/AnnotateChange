@@ -116,7 +116,7 @@ AnnotateChange can be launched quickly for local development as follows:
 
 To use AnnotateChange locally using Docker, follow the steps below. For a 
 full-fledged installation on a server, see the [deployment 
-instructions](./docs/DEPLOYMENT).
+instructions](./docs/DEPLOYMENT.md).
 
 0. Install [docker](https://docs.docker.com/get-docker/) and 
    [docker-compose](https://docs.docker.com/compose/install/).
