@@ -67,3 +67,5 @@ class Config(object):
 
     # other
     ACCEPTING_REGISTRATION = bool(int(os.environ.get('ACCEPTING_REGISTRATION', 0))) or False
+
+    TEMPLATES_AUTO_RELOAD = True
