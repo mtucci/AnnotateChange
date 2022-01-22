@@ -3,14 +3,15 @@ version: '3'
 services:
   annotatechange:
     image: gjjvdburg/annotatechange:latest
+    build: .
     env_file: .env
     labels:
       - "traefik.backend=annotatechange"
       - "traefik.docker.network=web"
-      - "traefik.frontend.rule=Host:change.gertjanvandenburg.com"
+      - "traefik.frontend.rule=Host:timeseries.disim.univaq.it"
       - "traefik.port=7831"
     ports:
-      - "7831:7831"
+      - "80:7831"
     networks:
       - internal
       - web
