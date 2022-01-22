@@ -55,7 +55,7 @@ class User(UserMixin, db.Model):
             {"reset_password": self.id, "exp": time.time() + expires_in},
             current_app.config["SECRET_KEY"],
             algorithm="HS256",
-        ).decode("utf-8")
+        )#.decode("utf-8")
 
     @staticmethod
     def verify_reset_password_token(token):
@@ -72,7 +72,7 @@ class User(UserMixin, db.Model):
             {"email": self.email, "exp": time.time() + expires_in},
             current_app.config["SECRET_KEY"],
             algorithm="HS256",
-        ).decode("utf-8")
+        )#.decode("utf-8")
 
     @staticmethod
     def verify_email_confirmation_token(token):
@@ -121,6 +121,7 @@ class Task(db.Model):
 class Annotation(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     cp_index = db.Column(db.Integer)
+    difficulty = db.Column(db.Integer)
 
     task = db.relation("Task")
     task_id = db.Column(db.Integer, db.ForeignKey("task.id"))

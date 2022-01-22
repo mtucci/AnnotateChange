@@ -38,6 +38,7 @@ function noCPOnClick(identifier) {
 
 function submitOnClick(identifier) {
 	var changepoints = document.getElementsByClassName("changepoint");
+	var difficulty = document.getElementById("difficulty");
 	// validation
 	if (changepoints.length === 0) {
 		$('#submitNoCPModal').modal();
@@ -46,6 +47,7 @@ function submitOnClick(identifier) {
 
 	var obj = {};
 	obj["identifier"] = identifier;
+	obj["difficulty"] = difficulty.value;
 	obj["changepoints"] = [];
 
 	var i, cp, xval, seen = [];
