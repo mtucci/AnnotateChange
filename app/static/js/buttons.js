@@ -18,6 +18,7 @@ function noCPOnClick(identifier) {
 
 	var obj = {}
 	obj["identifier"] = identifier;
+	obj["difficulty"] = difficulty.value;
 	obj["changepoints"] = null;
 
 	var xhr = new XMLHttpRequest();
