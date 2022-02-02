@@ -8,6 +8,7 @@ import datetime
 import logging
 import markdown
 import textwrap
+import itertools
 
 from flask import (
     render_template,
@@ -334,6 +335,9 @@ DEMO_DATA = {
         },
     },
 }
+
+# Cut the tutorial to the first 5 steps
+DEMO_DATA = dict(itertools.islice(DEMO_DATA.items(), 5))
 
 
 def demo_performance(user_id):
