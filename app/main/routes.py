@@ -14,7 +14,7 @@ from app import db
 from app.decorators import login_required
 from app.main import bp
 from app.main.email import send_annotation_backup
-from app.models import Annotation, Task
+from app.models import Annotation, Task, Dataset
 from app.utils.datasets import load_data_for_chart
 from app.utils.tasks import generate_user_task
 
@@ -172,4 +172,29 @@ def annotate(task_id):
         data=data,
         rubric=RUBRIC,
         is_multi=is_multi,
+    )
+
+@bp.route("/view_annotations/<int:task_id>", methods=("GET", "POST"))
+@login_required
+def view_annotations(task_id):
+    task = Task.query.filter_by(id=task_id).first()
+    # check if task exists
+    if task is None:
+        flash("No task with id %r exists." % task_id, "error")
+        return redirect(url_for("main.index"))
+
+    dataset = Dataset.query.filter_by(id=task.dataset_id).first()
+    data = load_data_for_chart(dataset.name, dataset.md5sum)
+    is_multi = len(data["chart_data"]["values"]) > 1
+    annotations = Annotation.query.filter_by(task_id=task_id).all()
+    data["annotations"] =\
+            [dict(user="user-%i" % task.annotator_id, index=a.cp_index)
+                for a in annotations]
+
+    return render_template(
+        "annotate/view.html",
+        title="View Annotations for dataset",
+        data=data,
+        is_multi=is_multi,
+        task_id=task_id,
     )

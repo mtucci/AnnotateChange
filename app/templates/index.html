@@ -58,6 +58,7 @@
           <thead>
             <th scope="col">Name</th>
             <th scope="col">Completed On</th>
+            <th scope="col"></th>
           </thead>
           {% for task in tasks_done %}
             <tr>
@@ -66,7 +67,8 @@
               {% else %}
               <td>Dataset {{ task.dataset.id | title }}</td>
               {% endif %}
-              <td>{{ task.annotated_on }} <a href="/annotate/{{ task.id }}">Re-annotate</a></td>
+              <td>{{ task.annotated_on }}</td>
+              <td><a href="/annotate/{{ task.id }}">Re-annotate</a> | <a href="/view_annotations/{{ task.id }}">View</a></td>
             </tr>
           {% endfor %}
         </table>
