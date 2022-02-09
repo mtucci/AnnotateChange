@@ -142,9 +142,11 @@ def annotate(task_id):
         return redirect(url_for("main.index"))
 
     # check if task is not already done
+    '''
     if task.done:
         flash("It's not possible to edit annotations at the moment.")
         return redirect(url_for("main.index"))
+    '''
 
     data = load_data_for_chart(task.dataset.name, task.dataset.md5sum)
     if data is None:
