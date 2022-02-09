@@ -36,3 +36,7 @@ rect {
 	font-size: 16px;
 	font-style: italic;
 }
+
+#difficulty label {
+    padding-right: 6px;
+}

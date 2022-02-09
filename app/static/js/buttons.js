@@ -10,9 +10,14 @@ function resetOnClick() {
 
 function noCPOnClick(identifier) {
 	var changepoints = document.getElementsByClassName("changepoint");
+	var difficulty = document.querySelector('input[name="difficulty"]:checked');
 	// validation
 	if (changepoints.length > 0) {
 		$('#NoCPYesCPModal').modal();
+		return;
+	}
+	if (difficulty === null) {
+		$('#NoDifficultyModal').modal();
 		return;
 	}
 
@@ -39,10 +44,14 @@ function noCPOnClick(identifier) {
 
 function submitOnClick(identifier) {
 	var changepoints = document.getElementsByClassName("changepoint");
-	var difficulty = document.getElementById("difficulty");
+	var difficulty = document.querySelector('input[name="difficulty"]:checked');
 	// validation
 	if (changepoints.length === 0) {
 		$('#submitNoCPModal').modal();
+		return;
+	}
+	if (difficulty === null) {
+		$('#NoDifficultyModal').modal();
 		return;
 	}
 
