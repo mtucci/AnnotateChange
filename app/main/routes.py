@@ -92,6 +92,13 @@ def annotate(task_id):
 
         task = Task.query.filter_by(id=task_id).first()
 
+        # if it is a re-annotation, get back to the home page
+        # otherwise proceed with the next time series
+        if task.done:
+            next = "main.index"
+        else:
+            next = "main.assign"
+
         # remove all previous annotations for this task
         for ann in Annotation.query.filter_by(task_id=task_id).all():
             db.session.delete(ann)
@@ -125,7 +132,8 @@ def annotate(task_id):
             "annotations_raw": annotation,
         }
         send_annotation_backup(record)
-        return url_for("main.index")
+
+        return url_for(next)
 
     task = Task.query.filter_by(id=task_id).first()
 
