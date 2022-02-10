@@ -17,28 +17,29 @@
 
   <div id="graph"></div>
 
+  <div id="difficulty">
+      <span>Diffitulty:</span>
+      <input type="radio" id="1" name="difficulty" value="1">
+      <label for="1">trivial</label>
+      <input type="radio" id="2" name="difficulty" value="2">
+      <label for="2">easy</label>
+      <input type="radio" id="3" name="difficulty" value="3">
+      <label for="3">doable</label>
+      <input type="radio" id="4" name="difficulty" value="4">
+      <label for="4">unsure</label>
+      <input type="radio" id="5" name="difficulty" value="5">
+      <label for="5">impossible</label>
+  </div>
+
   <div id="wrap-buttons" class="row">
-  	<div class="col-md-1 text-left">
+  	<div class="col-md-3 text-left">
   		<button class="btn btn-primary float-md-left" type="button" 
   			id="btn-reset">Reset</button>
   	</div>
     <div class="col-md-6 text-center">
       <p id="usage">You can zoom in and pan the graph if needed.</p>
     </div>
-  	<div class="col-md-5 text-right">
-        <div id="difficulty">
-            Diffitulty:
-            <input type="radio" id="1" name="difficulty" value="1">
-            <label for="1">trivial</label>
-            <input type="radio" id="2" name="difficulty" value="2">
-            <label for="2">easy</label>
-            <input type="radio" id="3" name="difficulty" value="3">
-            <label for="3">doable</label>
-            <input type="radio" id="4" name="difficulty" value="4">
-            <label for="4">unsure</label>
-            <input type="radio" id="5" name="difficulty" value="5">
-            <label for="5">impossible</label>
-        </div>
+  	<div class="col-md-3 text-right">
   		<button class="btn btn-warning float-md-right" type="button" 
   			id="btn-none">No change points</button>
   		<button class="btn btn-success float-md-right" id="btn-submit" 
@@ -56,7 +57,7 @@
   points\" button.") }}
 
   {{ modals.info("NoDifficulty", "No difficulty selected", "Please, select a
-  difficulty option") }}
+  difficulty option.") }}
 
   <h3>Selected Changepoints</h3>
   <div id="changepoint-table">
