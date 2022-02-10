@@ -28,6 +28,16 @@ Please mark the point(s) in the time series where an <b>abrupt change</b> in
 <br>
 """
 
+def __get_done_and_todo(user_id):
+    tasks = Task.query.filter_by(annotator_id=user_id).all()
+    tasks_done = [t for t in tasks if t.done and not t.dataset.is_demo]
+    tasks_todo = [
+        t for t in tasks if (not t.done) and (not t.dataset.is_demo)
+    ]
+    datasets = Dataset.query.filter_by(is_demo=False).all()
+    tasks_potential = [d for d in datasets
+            if d.id not in [t.dataset_id for t in tasks]]
+    return tasks_done, tasks_todo, tasks_potential
 
 @bp.route("/")
 @bp.route("/index")
@@ -36,16 +46,13 @@ def index():
         return redirect(url_for("auth.not_confirmed"))
     if current_user.is_authenticated:
         user_id = current_user.id
-        tasks = Task.query.filter_by(annotator_id=user_id).all()
-        tasks_done = [t for t in tasks if t.done and not t.dataset.is_demo]
-        tasks_todo = [
-            t for t in tasks if (not t.done) and (not t.dataset.is_demo)
-        ]
+        tasks_done, tasks_todo, tasks_potential = __get_done_and_todo(user_id)
         return render_template(
             "index.html",
             title="Home",
             tasks_done=tasks_done,
             tasks_todo=tasks_todo,
+            tasks_potential=tasks_potential,
         )
     return render_template("index.html", title="Home")
 
@@ -121,7 +128,9 @@ def annotate(task_id):
         task.done = True
         task.annotated_on = now
         db.session.commit()
-        flash("Your annotation has been recorded, thank you!", "success")
+        done, _, todo = __get_done_and_todo(current_user.id)
+        flash("Your annotation has been recorded, thank you! Done {}, {} to go!"\
+                .format(len(done), len(todo)), "success")
 
         # send the annotation as email to the admin for backup
         record = {
