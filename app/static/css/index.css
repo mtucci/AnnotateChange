@@ -14,3 +14,7 @@
 	width: 40%;
 	display: block;
 }
+
+.tasks-done .btn {
+    padding: 0px 12px !important;
+}

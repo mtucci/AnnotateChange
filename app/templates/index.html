@@ -68,7 +68,10 @@
               <td>Dataset {{ task.dataset.id | title }}</td>
               {% endif %}
               <td>{{ task.annotated_on }}</td>
-              <td><a href="/annotate/{{ task.id }}">Re-annotate</a> | <a href="/view_annotations/{{ task.id }}">View</a></td>
+              <td>
+                  <a class="btn btn-warning float-md-right" href="/annotate/{{ task.id }}">Re-annotate</a>
+                  <a class="btn btn-success float-md-right" href="/view_annotations/{{ task.id }}">View</a>
+              </td>
             </tr>
           {% endfor %}
         </table>
