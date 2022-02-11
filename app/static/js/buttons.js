@@ -8,7 +8,7 @@ function resetOnClick() {
 	updateTable();
 }
 
-function noCPOnClick(identifier) {
+function noCPOnClick(identifier, startTime) {
 	var changepoints = document.getElementsByClassName("changepoint");
 	var difficulty = document.querySelector('input[name="difficulty"]:checked');
 	// validation
@@ -25,6 +25,7 @@ function noCPOnClick(identifier) {
 	obj["identifier"] = identifier;
 	obj["difficulty"] = difficulty.value;
 	obj["changepoints"] = null;
+	obj["time_spent"] = new Date() - startTime;
 
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", "", false);
@@ -42,7 +43,7 @@ function noCPOnClick(identifier) {
 	xhr.send(JSON.stringify(obj));
 }
 
-function submitOnClick(identifier) {
+function submitOnClick(identifier, startTime) {
 	var changepoints = document.getElementsByClassName("changepoint");
 	var difficulty = document.querySelector('input[name="difficulty"]:checked');
 	// validation
@@ -59,6 +60,7 @@ function submitOnClick(identifier) {
 	obj["identifier"] = identifier;
 	obj["difficulty"] = difficulty.value;
 	obj["changepoints"] = [];
+	obj["time_spent"] = new Date() - startTime;
 
 	var i, cp, xval, seen = [];
 	for (i=0; i<changepoints.length; i++) {

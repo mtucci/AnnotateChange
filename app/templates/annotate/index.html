@@ -78,18 +78,20 @@
   {% endif %}
   <script>annotateChart("#graph", {{ data.chart_data | tojson }});</script>
   <script>
+    // starting time
+    var startTime = new Date();
     // reset button
     var reset = document.getElementById("btn-reset");
     reset.onclick = resetOnClick;
     // no changepoint button
     var nocp = document.getElementById("btn-none");
     nocp.onclick = function() {
-    	noCPOnClick({{ identifier }});
+       noCPOnClick({{ identifier }}, startTime);
     };
     // submit button
     var submit = document.getElementById("btn-submit");
     submit.onclick = function() {
-    	submitOnClick({{ identifier }});
+       submitOnClick({{ identifier }}, startTime);
     };
   </script>
 {% endblock scripts %}

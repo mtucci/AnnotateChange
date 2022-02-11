@@ -127,6 +127,7 @@ def annotate(task_id):
         # mark the task as done
         task.done = True
         task.annotated_on = now
+        task.time_spent = annotation["time_spent"]
         db.session.commit()
         done, _, todo = __get_done_and_todo(current_user.id)
         flash("Your annotation has been recorded, thank you! Done {}, {} to go!"\
