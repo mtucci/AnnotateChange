@@ -107,6 +107,7 @@ class Task(db.Model):
     done = db.Column(db.Boolean, nullable=False, default=False)
     annotated_on = db.Column(db.DateTime, nullable=True)
     time_spent = db.Column(db.Integer)
+    difficulty = db.Column(db.Integer)
     admin_assigned = db.Column(db.Boolean, default=False)
 
     user = db.relation("User")
@@ -122,7 +123,6 @@ class Task(db.Model):
 class Annotation(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     cp_index = db.Column(db.Integer)
-    difficulty = db.Column(db.Integer)
 
     task = db.relation("Task")
     task_id = db.Column(db.Integer, db.ForeignKey("task.id"))

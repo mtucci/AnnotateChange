@@ -115,12 +115,12 @@ def annotate(task_id):
 
         # record the annotation
         if annotation["changepoints"] is None:
-            ann = Annotation(cp_index=None, difficulty=annotation["difficulty"], task_id=task_id)
+            ann = Annotation(cp_index=None, task_id=task_id)
             db.session.add(ann)
             db.session.commit()
         else:
             for cp in annotation["changepoints"]:
-                ann = Annotation(cp_index=cp["x"], difficulty=annotation["difficulty"], task_id=task_id)
+                ann = Annotation(cp_index=cp["x"], task_id=task_id)
                 db.session.add(ann)
                 db.session.commit()
 
@@ -128,6 +128,7 @@ def annotate(task_id):
         task.done = True
         task.annotated_on = now
         task.time_spent = annotation["time_spent"]
+        task.difficulty = annotation["difficulty"]
         db.session.commit()
         done, _, todo = __get_done_and_todo(current_user.id)
         flash("Your annotation has been recorded, thank you! Done {}, {} to go!"\
