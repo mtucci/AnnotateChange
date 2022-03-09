@@ -108,6 +108,52 @@ def manage_tasks():
         "admin/manage_tasks.html", title="Assign Task", form=form, tasks=tasks
     )
 
+@bp.route("/manage/tasks/download", methods=("GET",))
+@admin_required
+def download_tasks_csv():
+    tasks = (
+        Task.query
+        .filter_by(done=1)
+        .join(User, Task.user)
+        .join(Dataset, Task.dataset)
+        .order_by(Dataset.name, User.username)
+        .all()
+    )
+
+    header = [
+        "TaskID",
+        "DatasetName",
+        "Username",
+        "CompletedOn",
+        "Difficulty",
+        "TimeSpent",
+    ]
+
+    proxy = io.StringIO()
+    writer = csv.writer(proxy)
+    writer.writerow(header)
+    for task in tasks:
+        row = [
+            task.id,
+            task.dataset.name,
+            task.user.username,
+            task.annotated_on,
+            task.difficulty,
+            task.time_spent,
+        ]
+        writer.writerow(row)
+
+    mem = io.BytesIO()
+    mem.write(proxy.getvalue().encode("utf-8"))
+    mem.seek(0)
+    proxy.close()
+
+    fname = "%i_tasks.csv" % (round(datetime.datetime.now().timestamp()))
+
+    return send_file(
+        mem, as_attachment=True, attachment_filename=fname, mimetype="text/csv"
+    )
+
 
 @bp.route("/manage/users", methods=("GET", "POST"))
 @admin_required
