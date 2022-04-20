@@ -1,5 +1,15 @@
+function getChangepoints() {
+	var changepoints = [];
+	for (const ct of changeTypes) {
+		for (const cp of document.getElementsByClassName(ct[0])) {
+			changepoints.push(cp)
+		}
+	}
+	return changepoints;
+}
 function updateTable() {
-	var changepoints = document.getElementsByClassName("changepoint");
+	//var changepoints = document.getElementsByClassName("changepoint");
+	var changepoints = getChangepoints();
 
 	var myTableDiv = document.getElementById("changepoint-table");
 
@@ -17,7 +27,8 @@ function updateTable() {
 
 	var heading = new Array();
 	heading[0] = "#";
-	heading[1] = "T";
+	heading[1] = "Datapoint";
+	heading[2] = "Type";
 
 	// TABLE COLUMNS
 	var thead = document.createElement('THEAD');
@@ -45,6 +56,12 @@ function updateTable() {
 		var td = document.createElement('TD');
 		td.appendChild(document.createTextNode(
 			d3.select(cp).data()[0].X
+		));
+		tr.appendChild(td);
+
+		var td = document.createElement('TD');
+		td.appendChild(document.createTextNode(
+			d3.select(cp).attr('class')
 		));
 		tr.appendChild(td);
 

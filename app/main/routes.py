@@ -115,12 +115,12 @@ def annotate(task_id):
 
         # record the annotation
         if annotation["changepoints"] is None:
-            ann = Annotation(cp_index=None, task_id=task_id)
+            ann = Annotation(cp_index=None, type=None, task_id=task_id)
             db.session.add(ann)
             db.session.commit()
         else:
             for cp in annotation["changepoints"]:
-                ann = Annotation(cp_index=cp["x"], task_id=task_id)
+                ann = Annotation(cp_index=cp["x"], type=cp["t"], task_id=task_id)
                 db.session.add(ann)
                 db.session.commit()
 

@@ -243,10 +243,34 @@ function baseChart(
 	});
 }
 
+const changeTypes = [
+	['mean', 'red', 'M'],
+	['variance', 'orange', 'V'],
+	['mean_variance', 'yellow', 'B'],
+	['', null],
+];
 function annotateChart(selector, data) {
 	function handleClick(d, i) {
 		if (d3.event.defaultPrevented) return; // zoomed
 		var elem = d3.select(d.element);
+		var next = 0;
+		for (var i = 0; i < changeTypes.length - 1; i++) {
+			if (elem.node().classList.contains(changeTypes[i][0])) {
+				next = i + 1;
+			}
+		}
+		console.log(changeTypes[next]);
+		elem.attr('stroke', 'blue');
+		elem.style("fill", changeTypes[next][1]);
+		elem.attr('class', changeTypes[next][0]);
+		/*
+		var g = elem.select(function() { return this.parentNode; });
+		g.append('text')
+			.attr('x', elem.attr('cx'))
+			.attr('y', elem.attr('cy'))
+			.text(changeTypes[next][2]);
+		*/
+		/*
 		if (elem.classed("changepoint")) {
 			elem.style("fill", null);
 			elem.classed("changepoint", false);
@@ -254,6 +278,7 @@ function annotateChart(selector, data) {
 			elem.style("fill", "red");
 			elem.classed("changepoint", true);
 		}
+		*/
 		updateTable();
 	}
 	baseChart(selector, data, handleClick, [], null);

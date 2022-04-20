@@ -1,15 +1,15 @@
 function resetOnClick() {
-	var changepoints = d3.selectAll(".changepoint");
-	changepoints.each(function(d, i) {
-		var elem = d3.select(this);
-		elem.classed("changepoint", false);
+	var changepoints = getChangepoints();
+	for (const cp of changepoints) {
+		var elem = d3.select(cp);
 		elem.style("fill", "blue");
-	});
+                elem.attr('class', '');
+	}
 	updateTable();
 }
 
 function noCPOnClick(identifier, startTime) {
-	var changepoints = document.getElementsByClassName("changepoint");
+	var changepoints = getChangepoints();
 	var difficulty = document.querySelector('input[name="difficulty"]:checked');
 	// validation
 	if (changepoints.length > 0) {
@@ -44,7 +44,7 @@ function noCPOnClick(identifier, startTime) {
 }
 
 function submitOnClick(identifier, startTime) {
-	var changepoints = document.getElementsByClassName("changepoint");
+	var changepoints = getChangepoints();
 	var difficulty = document.querySelector('input[name="difficulty"]:checked');
 	// validation
 	if (changepoints.length === 0) {
@@ -68,7 +68,8 @@ function submitOnClick(identifier, startTime) {
 		xval = cp.getAttribute("data_X");
 		elem = {
 			id: i,
-			x: xval
+			x: xval,
+			t: cp.classList[0]
 		};
 		if (seen.includes(xval))
 			continue;

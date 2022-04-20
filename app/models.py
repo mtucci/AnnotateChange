@@ -123,6 +123,7 @@ class Task(db.Model):
 class Annotation(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     cp_index = db.Column(db.Integer)
+    type = db.Column(db.String(50))
 
     task = db.relation("Task")
     task_id = db.Column(db.Integer, db.ForeignKey("task.id"))
