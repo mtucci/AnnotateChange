@@ -40,7 +40,7 @@ def realgenerate_user_task(user):
         3) users never get the same dataset twice
 
     """
-    max_per_user = current_app.config["TASKS_MAX_PER_USER"]
+    max_per_user = user.max_tasks
     num_per_dataset = current_app.config["TASKS_NUM_PER_DATASET"]
 
     user_tasks = Task.query.filter_by(annotator_id=user.id).all()

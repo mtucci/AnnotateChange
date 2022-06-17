@@ -41,6 +41,9 @@ class User(UserMixin, db.Model):
     # full name
     fullname = db.Column(db.String(256), unique=False, nullable=True)
 
+    # max tasks
+    max_tasks = db.Column(db.Integer, nullable=False, default=50)
+
     def __repr__(self):
         return "<User %r>" % self.username
 

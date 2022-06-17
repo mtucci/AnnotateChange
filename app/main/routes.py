@@ -28,8 +28,8 @@ Please mark the point(s) in the time series where an <b>abrupt change</b> in
 <br>
 """
 
-def __get_done_and_todo(user_id):
-    tasks = Task.query.filter_by(annotator_id=user_id).all()
+def __get_done_and_todo(user):
+    tasks = Task.query.filter_by(annotator_id=user.id).all()
     tasks_done = [t for t in tasks if t.done and not t.dataset.is_demo]
     tasks_todo = [
         t for t in tasks if (not t.done) and (not t.dataset.is_demo)
@@ -37,6 +37,9 @@ def __get_done_and_todo(user_id):
     datasets = Dataset.query.filter_by(is_demo=False).all()
     tasks_potential = [d for d in datasets
             if d.id not in [t.dataset_id for t in tasks]]
+    left = user.max_tasks - len(tasks_done)
+    if len(tasks_potential) > left:
+        tasks_potential = tasks_potential[:left]
     return tasks_done, tasks_todo, tasks_potential
 
 @bp.route("/")
@@ -45,8 +48,7 @@ def index():
     if not current_user.is_anonymous and not current_user.is_confirmed:
         return redirect(url_for("auth.not_confirmed"))
     if current_user.is_authenticated:
-        user_id = current_user.id
-        tasks_done, tasks_todo, tasks_potential = __get_done_and_todo(user_id)
+        tasks_done, tasks_todo, tasks_potential = __get_done_and_todo(current_user)
         return render_template(
             "index.html",
             title="Home",
