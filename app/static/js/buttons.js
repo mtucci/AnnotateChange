@@ -8,24 +8,54 @@ function resetOnClick() {
 	updateTable();
 }
 
-function noCPOnClick(identifier, startTime) {
-	var changepoints = getChangepoints();
+function validateDifficulty() {
 	var difficulty = document.querySelector('input[name="difficulty"]:checked');
-	// validation
-	if (changepoints.length > 0) {
-		$('#NoCPYesCPModal').modal();
-		return;
-	}
 	if (difficulty === null) {
 		$('#NoDifficultyModal').modal();
-		return;
+		return false;
 	}
+    return true;
+}
+
+function askForProblem(subFun, identifier, startTime) {
+    $("#ReportProblemModal").on("hidden.bs.modal", function () {
+        document.getElementById("problem-text").value = "";
+    });
+    document.getElementById("btn-modal-report").onclick = function() {
+       subFun(identifier, startTime); 
+    }
+	var problem = document.querySelector('input[name="problem"]:checked');
+    var problemText = document.getElementById("problem-text").value;
+    if (problem !== null && problemText === "") {
+		$('#ReportProblemModal').modal();
+        return false;
+    }
+    return true;
+}
+
+function noCPOnClick(identifier, startTime) {
+	var changepoints = getChangepoints();
+	if (changepoints.length > 0) {
+		$('#NoCPYesCPModal').modal();
+		return false;
+	}
+
+    if (!validateDifficulty()) {
+        return;
+    }
+
+    if (!askForProblem(noCPOnClick, identifier, startTime)) {
+        return;
+    }
+
+	var difficulty = document.querySelector('input[name="difficulty"]:checked');
 
 	var obj = {}
 	obj["identifier"] = identifier;
 	obj["difficulty"] = difficulty.value;
 	obj["changepoints"] = null;
 	obj["time_spent"] = new Date() - startTime;
+    obj["problem"] = document.getElementById('problem-text').value;
 
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", "", false);
@@ -45,22 +75,27 @@ function noCPOnClick(identifier, startTime) {
 
 function submitOnClick(identifier, startTime) {
 	var changepoints = getChangepoints();
-	var difficulty = document.querySelector('input[name="difficulty"]:checked');
-	// validation
 	if (changepoints.length === 0) {
-		$('#submitNoCPModal').modal();
-		return;
+		$('#NoCPYesCPModal').modal();
+		return false;
 	}
-	if (difficulty === null) {
-		$('#NoDifficultyModal').modal();
-		return;
-	}
+
+    if (!validateDifficulty()) {
+        return;
+    }
+
+    if (!askForProblem(submitOnClick, identifier, startTime)) {
+        return;
+    }
+
+	var difficulty = document.querySelector('input[name="difficulty"]:checked');
 
 	var obj = {};
 	obj["identifier"] = identifier;
 	obj["difficulty"] = difficulty.value;
 	obj["changepoints"] = [];
 	obj["time_spent"] = new Date() - startTime;
+    obj["problem"] = document.getElementById('problem-text').value;
 
 	var i, cp, xval, seen = [];
 	for (i=0; i<changepoints.length; i++) {

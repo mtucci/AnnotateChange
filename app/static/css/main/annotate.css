@@ -52,3 +52,7 @@ rect {
 h1 .btn {
     margin-left: 25px;
 }
+
+#report {
+    text-align: center;
+}

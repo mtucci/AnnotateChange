@@ -31,6 +31,11 @@
       <label for="5">impossible</label>
   </div>
 
+  <div id="report">
+      <input type="checkbox" id="problem" name="problem">
+      <label for="problem">Report a problem with this dataset.</label>
+  </div>
+
   <div id="wrap-buttons" class="row">
   	<div class="col-md-3 text-left">
   		<button class="btn btn-primary float-md-left" type="button" 
@@ -58,6 +63,9 @@
 
   {{ modals.info("NoDifficulty", "No difficulty selected", "Please, select a
   difficulty option.") }}
+
+  {{ modals.report("ReportProblem", "Report a problem", "Please, briefly
+  describe the problem you encountered with this dataset.") }}
 
   <h3>Selected Changepoints</h3>
   <div id="changepoint-table">

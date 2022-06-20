@@ -131,8 +131,9 @@ def annotate(task_id):
         task.annotated_on = now
         task.time_spent = annotation["time_spent"]
         task.difficulty = annotation["difficulty"]
+        task.problem = annotation["problem"]
         db.session.commit()
-        done, _, todo = __get_done_and_todo(current_user.id)
+        done, _, todo = __get_done_and_todo(current_user)
         flash("Your annotation has been recorded, thank you! Done {}, {} to go!"\
                 .format(len(done), len(todo)), "success")
 

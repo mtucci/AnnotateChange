@@ -111,6 +111,7 @@ class Task(db.Model):
     annotated_on = db.Column(db.DateTime, nullable=True)
     time_spent = db.Column(db.Integer)
     difficulty = db.Column(db.Integer)
+    problem = db.Column(db.Text)
     admin_assigned = db.Column(db.Boolean, default=False)
 
     user = db.relation("User")
