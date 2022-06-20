@@ -91,11 +91,11 @@ if __name__ == '__main__':
         print('Unable to login.')
         exit(1)
 
-    for dataset in data['timeseries_id'].unique():
+    for dataset in data['id'].unique():
 
         # Convert to the AnnotateChange object
-        df = data[data['timeseries_id'] == dataset]
-        name = '{}_{}'.format(Path(csv_file).with_suffix('').name, dataset)
+        df = data[data['id'] == dataset]
+        name = '{}_{}'.format(Path(csv_file).with_suffix('').name.lower(), dataset)
         series = AnnotateChange(name, df['value'].to_list())
 
         # Upload the dataset
