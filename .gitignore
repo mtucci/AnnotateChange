@@ -7,3 +7,4 @@ instance/
 venv/
 app.db
 *.egg-info
+*.swp
