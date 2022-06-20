@@ -127,6 +127,7 @@ def download_tasks_csv():
         "CompletedOn",
         "Difficulty",
         "TimeSpent",
+        "Problem",
     ]
 
     proxy = io.StringIO()
@@ -140,6 +141,7 @@ def download_tasks_csv():
             task.annotated_on,
             task.difficulty,
             task.time_spent,
+            task.problem,
         ]
         writer.writerow(row)
 
@@ -333,6 +335,7 @@ def download_annotations_csv():
         "UserID",
         "AnnotatedOn",
         "AnnotationIndex",
+        "AnnotationType",
     ]
 
     proxy = io.StringIO()
@@ -349,6 +352,7 @@ def download_annotations_csv():
             row.append("no_cp")
         else:
             row.append(ann.cp_index)
+            row.append(ann.type)
         writer.writerow(row)
 
     mem = io.BytesIO()
