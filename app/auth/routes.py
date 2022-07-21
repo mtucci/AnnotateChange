@@ -151,6 +151,7 @@ def register():
             read_toc=form.toc.data,
             wants_credit=form.credit.data,
             wants_updates=form.updated.data,
+            max_tasks=current_app.config['TASKS_MAX_PER_USER'],
         )
         user.set_password(form.password.data)
         db.session.add(user)
