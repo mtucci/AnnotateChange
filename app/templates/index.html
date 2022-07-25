@@ -64,11 +64,15 @@
           </thead>
           {% for task in tasks_done %}
             <tr>
+              {#
               {% if current_user.is_admin %}
               <td>{{ task.dataset.name | title }}</td>
               {% else %}
+              #}
               <td>Dataset {{ task.dataset.id | title }}</td>
+              {#
               {% endif %}
+              #}
               <td>{{ task.annotated_on }}</td>
               <td>
                   <a class="btn btn-warning float-md-right" href="/annotate/{{ task.id }}">Re-annotate</a>
