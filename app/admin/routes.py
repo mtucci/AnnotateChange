@@ -37,6 +37,7 @@ from app.utils.datasets import (
     dataset_is_demo,
     load_data_for_chart,
 )
+from sqlalchemy import func
 
 
 @bp.route("/manage/tasks", methods=("GET", "POST"))
@@ -161,6 +162,9 @@ def download_tasks_csv():
 @admin_required
 def manage_users():
     users = User.query.all()
+    tasks = Task.query.filter_by(done=1).all()
+    for u in users:
+        u.annotated = len([t for t in tasks if t.annotator_id == u.id])
     user_list = [(u.id, u.username) for u in users if not u.is_admin]
 
     form = AdminManageUsersForm()
