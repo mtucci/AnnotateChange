@@ -76,7 +76,7 @@ def auto_logout():
     # Automatically logout after a period of inactivity
     # https://stackoverflow.com/a/40914886/1154005
     session.permanent = True
-    current_app.permanent_session_lifetime = datetime.timedelta(minutes=15)
+    current_app.permanent_session_lifetime = datetime.timedelta(days=1)
     session.modified = True
 
 
