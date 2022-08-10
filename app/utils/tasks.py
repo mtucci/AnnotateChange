@@ -13,6 +13,7 @@ import multiprocessing
 
 from flask import current_app
 
+from app import db
 from app.models import Dataset, Task
 
 TASK_LOCK = multiprocessing.Lock()
@@ -57,20 +58,31 @@ def realgenerate_user_task(user):
         return None
 
     # collect datasets that can be potentially assigned to the user
-    potential_datasets = []
-    for dataset in Dataset.query.filter_by(is_demo=False).all():
-        dataset_tasks = Task.query.filter_by(dataset_id=dataset.id).all()
+    #potential_datasets = []
+    #for dataset in Dataset.query.filter_by(is_demo=False).all():
+    #    dataset_tasks = Task.query.filter_by(dataset_id=dataset.id).all()
 
-        # check that this dataset needs more annotations
-        n_needed = num_per_dataset - len(dataset_tasks)
+    #    # check that this dataset needs more annotations
+    #    n_needed = num_per_dataset - len(dataset_tasks)
 
-        # check that this dataset is not already assigned to the user
-        task = Task.query.filter_by(
-            dataset_id=dataset.id, annotator_id=user.id
-        ).first()
-        if not task is None:
-            continue
-        potential_datasets.append((n_needed, dataset))
+    #    # check that this dataset is not already assigned to the user
+    #    task = Task.query.filter_by(
+    #        dataset_id=dataset.id, annotator_id=user.id
+    #    ).first()
+    #    if not task is None:
+    #        continue
+    #    potential_datasets.append((n_needed, dataset))
+
+    datasets = (
+        db.session.query(Dataset.id, db.func.count(Task.id).label('tasks'))
+        .filter_by(is_demo=False)
+        .join(Task, isouter=True)
+        .group_by(Dataset.id)
+        .all()
+    )
+    user_tasks_flat = [t.dataset_id for t in user_tasks]
+    potential_datasets = [(num_per_dataset - d['tasks'], d['id'])
+            for d in datasets if d['id'] not in user_tasks_flat]
 
     # don't assign a dataset if there are no more datasets to annotate (user
     # has done all)
@@ -102,5 +114,6 @@ def realgenerate_user_task(user):
     if dataset is None:
         return None
 
-    task = Task(annotator_id=user.id, dataset_id=dataset.id)
+    #task = Task(annotator_id=user.id, dataset_id=dataset.id)
+    task = Task(annotator_id=user.id, dataset_id=dataset)
     return task
