@@ -69,7 +69,7 @@ DEMO_DATA = {
                 where these abrupt changes occur. You can mark a point by 
                 clicking on it.
                 Different types of changes (mean, variance, both) can be marked
-                by clicking repeatly on the same datapoint. The color of the
+                by clicking repeatedly on the same datapoint. The color of the
                 datapoint will change, and the type of change will be reported
                 in the table underneath the plot. A marked point can be unmarked
                 by clicking on it again until it turns blue.

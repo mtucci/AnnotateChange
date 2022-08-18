@@ -26,7 +26,7 @@ Please mark the point(s) in the time series where an <b>abrupt change</b> in
  series that are separated by places where these abrupt changes occur. Recall 
  that it is also possible for there to be <i>no change points</i>.
  Different types of changes (mean, variance, both) can be marked
- by clicking repeatly on the same datapoint.
+ by clicking repeatedly on the same datapoint.
 <br>
 """
 
