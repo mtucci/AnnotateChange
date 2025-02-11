@@ -33,6 +33,7 @@ def upgrade():
     sa.Column('email', sa.String(length=256), nullable=False),
     sa.Column('password_hash', sa.String(length=128), nullable=False),
     sa.Column('last_active', sa.DateTime(), nullable=False),
+    sa.Column('max_tasks', sa.Integer(), nullable=False, default=50),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('email'),
     sa.UniqueConstraint('username')
