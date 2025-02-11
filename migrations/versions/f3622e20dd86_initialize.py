@@ -44,6 +44,9 @@ def upgrade():
     sa.Column('annotated_on', sa.DateTime(), nullable=True),
     sa.Column('annotator_id', sa.Integer(), nullable=True),
     sa.Column('dataset_id', sa.Integer(), nullable=True),
+    sa.Column('time_spent', sa.Integer(), nullable=True),
+    sa.Column('difficulty', sa.Integer(), nullable=True),
+    sa.Column('problem', sa.Text(), nullable=True),
     sa.ForeignKeyConstraint(['annotator_id'], ['user.id'], ),
     sa.ForeignKeyConstraint(['dataset_id'], ['dataset.id'], ),
     sa.PrimaryKeyConstraint('id')
@@ -53,6 +56,7 @@ def upgrade():
     sa.Column('time_start', sa.Integer(), nullable=True),
     sa.Column('time_end', sa.Integer(), nullable=True),
     sa.Column('task_id', sa.Integer(), nullable=True),
+    sa.Column('type', sa.String(50), nullable=True),
     sa.ForeignKeyConstraint(['task_id'], ['task.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
